@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Canvas } from '../Canvas';
 import { Plugin } from './Plugin';
 
 interface WeatherData {
@@ -22,7 +21,7 @@ export const weather: Plugin<WeatherData> = {
   data: {
     type: '',
   },
-  async setup(canvas: Canvas) {
+  async setup(canvas) {
     try {
       const { data } = await axios('http://api.openweathermap.org/data/2.5/weather?q=knipton&appid=b9fe737f470c68b3273c8a8e494ac8e4') as OpenWeatherMapResponse;
       weather.data = {
@@ -33,7 +32,7 @@ export const weather: Plugin<WeatherData> = {
       weather.data.error = true;
     }
   },
-  draw(canvas: Canvas, frame) {
+  draw(canvas, frame) {
     const { error, type } = weather.data;
 
     if (type === 'Rain') {

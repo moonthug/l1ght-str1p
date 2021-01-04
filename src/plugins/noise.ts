@@ -1,6 +1,5 @@
 import * as SimplexNoise from 'simplex-noise';
 
-import { Canvas } from '../Canvas';
 import { Plugin } from './Plugin';
 
 interface ColoursData {
