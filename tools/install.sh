@@ -14,4 +14,3 @@ tar -zxvf l1ght-str1p.tar.gz
 mv ./dist "$INSTALL_DIR"
 
 cd "$INSTALL_DIR"
-npm install

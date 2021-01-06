@@ -21,6 +21,4 @@ then
 
   mv ./dist "$INSTALL_DIR"
   cd "$INSTALL_DIR"
-
-  npm install
 fi
