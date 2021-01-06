@@ -29,7 +29,7 @@ async function main() {
   // const spi = PiSpi.initialize('/dev/spidev0.0');
 
   // Setup Light Canvas
-  const canvas = new Canvas(50);
+  const canvas = new Canvas(120);
   let frame = 0;
 
   // @TODO Add plugin sequencer
