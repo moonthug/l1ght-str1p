@@ -16,7 +16,7 @@ function createWebThing(props: WebThingProps): Thing {
   thing.addProperty(
     new Property(thing,
       'on',
-      new Value(true),
+      new Value(true, (on: boolean) => props.on = on),
       {
         '@type': 'OnOffProperty',
         title: 'On/Off',

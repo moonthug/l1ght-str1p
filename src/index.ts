@@ -5,6 +5,7 @@ import {
 import { Canvas } from './Canvas';
 
 import { noise } from './plugins/noise';
+import { webthings } from './plugins/webthings';
 import { weather } from './plugins/weather';
 import { debugOutput } from './debugOutput';
 import { createWebThingServer } from './webthing';
@@ -31,7 +32,8 @@ async function main() {
   const canvas = new Canvas(50);
   let frame = 0;
 
-  const plugin = noise;
+  // @TODO Add plugin sequencer
+  const plugin = webthings;
   await plugin.setup(canvas, webThingsProps);
 
   const timer = setDriftlessInterval(async () => {
@@ -46,4 +48,5 @@ async function main() {
   }, INTERVAL);
 }
 
+// tslint:disable-next-line:no-console
 main().catch(console.error);
