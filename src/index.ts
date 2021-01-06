@@ -12,6 +12,7 @@ import { createWebThingServer } from './webthing';
 
 const INTERVAL = 1000 / 24;
 
+process.title = 'l1ght-str1p';
 
 async function main() {
   const remoteSettings = {};
