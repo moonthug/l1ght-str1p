@@ -11,7 +11,6 @@ then
 
   cd /tmp || exit
 
-  echo "https://polyglot-rodeo-deploy.s3.eu-west-2.amazonaws.com/l1ght-str1p/$UPDATE_VERSION";
   curl "https://polyglot-rodeo-deploy.s3.eu-west-2.amazonaws.com/l1ght-str1p/$UPDATE_VERSION" -o l1ght-str1p.tar.gz
 
   rm -rf ./dist
@@ -21,4 +20,7 @@ then
   rm -rf "$INSTALL_DIR"
 
   mv ./dist "$INSTALL_DIR"
+  cd "$INSTALL_DIR"
+
+  npm install
 fi
