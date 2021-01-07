@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APP_NAME="l1ght-str1p"
-INSTALL_PARENT="/opt"
+INSTALL_PARENT="~"
 INSTALL_DIR="$INSTALL_PARENT/$APP_NAME"
 INSTALL_VERSION=$(curl https://polyglot-rodeo-deploy.s3.eu-west-2.amazonaws.com/l1ght-str1p/version)
 

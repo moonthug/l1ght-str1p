@@ -1,5 +1,5 @@
 /* tslint:disable:no-console */
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import { Colour } from './Canvas';
 
 export function debugOutput(pixels: Colour[], frame: number) {

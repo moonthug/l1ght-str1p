@@ -3,10 +3,11 @@
     "outDir": "./dist",
     "allowJs": false,
     "target": "es6",
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "commonjs",
-    "sourceMap": true,
-    "declaration": true,
+    "sourceMap": false,
+    "declaration": false,
     "experimentalDecorators": true,
     "lib": [
       "es6",

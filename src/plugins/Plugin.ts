@@ -1,5 +1,5 @@
 import { Canvas } from '../Canvas';
-import { WebThingProps } from '../webthing';
+import { ThingsProps } from '../index';
 
 export interface PluginOptions {
 }
@@ -7,6 +7,6 @@ export interface PluginOptions {
 export interface Plugin<T = unknown> {
   data?: T,
   options?: PluginOptions,
-  setup?(canvas: Canvas, webThingsProps: WebThingProps): void,
-  draw?(canvas: Canvas, frame: number, webThingsProps: WebThingProps): void,
+  setup?(canvas: Canvas, thingsProps: ThingsProps): void,
+  draw?(canvas: Canvas, frame: number, thingsProps: ThingsProps): void,
 }
