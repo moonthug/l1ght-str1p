@@ -1,12 +1,12 @@
 import SimplexNoise from 'simplex-noise';
 
-import { Plugin } from './Plugin';
+import { Scene } from './Scene';
 
 interface WobblerData {
   simplex: SimplexNoise,
 }
 
-export const wobbler: Plugin<WobblerData> = {
+export const wobbler: Scene<WobblerData> = {
   setup() {
     wobbler.data = {
       simplex: new SimplexNoise(),

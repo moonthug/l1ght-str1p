@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Plugin } from './Plugin';
+import { Scene } from './Scene';
 
 interface WeatherData {
   error?: boolean,
@@ -17,7 +17,7 @@ interface OpenWeatherMapResponse {
   },
 }
 
-export const weather: Plugin<WeatherData> = {
+export const weather: Scene<WeatherData> = {
   data: {
     type: '',
   },

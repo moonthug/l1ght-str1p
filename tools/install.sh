@@ -13,4 +13,4 @@ tar -zxvf l1ght-str1p.tar.gz
 
 mv ./dist "$INSTALL_DIR"
 
-cd "$INSTALL_DIR"
+sudo pm2 restart ecosystem.config.js

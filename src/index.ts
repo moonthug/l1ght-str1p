@@ -4,18 +4,21 @@ import {
 } from 'driftless';
 import { Canvas } from './Canvas';
 
-import { noise } from './plugins/noise';
-import { webthings } from './plugins/webthings';
-import { wobbler } from './plugins/wobbler';
-import { weather } from './plugins/weather';
+import { noise } from './scenes/noise';
+import { noise2 } from './scenes/noise2';
+import { webthings } from './scenes/webthings';
+import { wobbler } from './scenes/wobbler';
+import { weather } from './scenes/weather';
+
 import { debugOutput } from './debugOutput';
 import { createHapService } from './hap';
 
 const INTERVAL = 1000 / 24;
-const PLUGIN_DURATION = 10 * 24;
+const SCENE_DURATION = 10 * 24;
 
-const plugins = [
+const scenes = [
   noise,
+  noise2,
   wobbler,
 ];
 
@@ -43,18 +46,18 @@ async function main() {
   let frame = 0;
 
   // @TODO Add plugin sequencer
-  let plugin = plugins[0];
-  let currentPlugin = 0;
+  let scene = scenes[0];
+  let currentScene = 0;
 
   const timer = setDriftlessInterval(async () => {
-    if (frame % PLUGIN_DURATION === 0) {
+    if (frame % SCENE_DURATION === 0) {
       // @TODO Make this nicer, add fade, queue, properly awaited setup call etc
-      currentPlugin = (currentPlugin + 1) % plugins.length;
-      plugin = plugins[currentPlugin];
-      plugin.setup(canvas, thingsProps);
+      currentScene = (currentScene + 1) % scenes.length;
+      scene = scenes[currentScene];
+      scene.setup(canvas, thingsProps);
     }
 
-    plugin.draw(canvas, frame, thingsProps);
+    scene.draw(canvas, frame, thingsProps);
 
     debugOutput(canvas.getPixels(), frame);
 

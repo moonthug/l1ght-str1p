@@ -1,12 +1,12 @@
 import SimplexNoise from 'simplex-noise';
 
-import { Plugin } from './Plugin';
+import { Scene } from './Scene';
 
-interface ColoursData {
+interface NoiseData {
   simplex: SimplexNoise,
 }
 
-export const noise: Plugin<ColoursData> = {
+export const noise: Scene<NoiseData> = {
   setup() {
     noise.data = {
       simplex: new SimplexNoise(),

@@ -1,6 +1,6 @@
-import { Plugin } from './Plugin';
+import { Scene } from './Scene';
 
-export const test: Plugin = {
+export const test: Scene = {
   draw(canvas, frame) {
     canvas.setPixel(0, [ frame % 255, 0, 0 ]);
     canvas.setPixel(1, [ 0, 255, 0 ]);

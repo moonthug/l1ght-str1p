@@ -20,5 +20,6 @@ then
   rm -rf "$INSTALL_DIR"
 
   mv ./dist "$INSTALL_DIR"
-  cd "$INSTALL_DIR"
+
+  sudo pm2 restart ecosystem.config.js
 fi

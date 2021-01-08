@@ -1,6 +1,6 @@
-import { Plugin } from './Plugin';
+import { Scene } from './Scene';
 
-export const webthings: Plugin = {
+export const webthings: Scene = {
   setup() {
 
   },
