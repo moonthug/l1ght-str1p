@@ -5,7 +5,7 @@ import {
 import { Canvas } from './Canvas';
 
 import { noise } from './scenes/noise';
-import { noise2 } from './scenes/noise2';
+import { nightrider } from './scenes/nightrider';
 import { webthings } from './scenes/webthings';
 import { wobbler } from './scenes/wobbler';
 import { weather } from './scenes/weather';
@@ -18,7 +18,7 @@ const SCENE_DURATION = 10 * 24;
 
 const scenes = [
   noise,
-  noise2,
+  nightrider,
   wobbler,
 ];
 
@@ -29,13 +29,12 @@ export interface ThingsProps {
 }
 
 async function main() {
-  const remoteSettings = {};
-
   const thingsProps = {
     brightness: 100,
     color: '#000000',
     on: false,
   };
+
   const server = createHapService(thingsProps);
 
   // Start SPI
@@ -54,7 +53,10 @@ async function main() {
       // @TODO Make this nicer, add fade, queue, properly awaited setup call etc
       currentScene = (currentScene + 1) % scenes.length;
       scene = scenes[currentScene];
-      scene.setup(canvas, thingsProps);
+
+      if (scene.setup) {
+        scene.setup(canvas, thingsProps);
+      }
     }
 
     scene.draw(canvas, frame, thingsProps);
@@ -72,7 +74,6 @@ process.on('SIGINT', () => {
   ws281x.reset();
   process.exit(0);
 });
-
 
 // tslint:disable-next-line:no-console
 main().catch(console.error);
