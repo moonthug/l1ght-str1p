@@ -17,8 +17,8 @@ export const noise: Scene<NoiseData> = {
       const rNoise = noise.data.simplex.noise2D(index + frame, (index + frame) * 2);
       const bNoise = noise.data.simplex.noise2D(index + frame + 2, (index + frame + 2) * 2);
 
-      const red = Math.floor(rNoise * 50) + ((thingsProps.brightness / 100) * 200);
-      const blue = Math.floor(bNoise * 100) + ((thingsProps.brightness / 100) * 150);
+      const red = 150 + Math.floor(rNoise * 100);
+      const blue = 150 + Math.floor(bNoise * 100);
 
       canvas.setPixel(index, [red, 255, blue]);
     });

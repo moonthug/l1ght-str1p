@@ -13,8 +13,8 @@ import { weather } from './scenes/weather';
 import { debugOutput } from './debugOutput';
 import { createHapService } from './hap';
 
-const INTERVAL = 1000 / 24;
-const SCENE_DURATION = 10 * 24;
+const INTERVAL = 1000 / 60;
+const SCENE_DURATION = 10 * 60;
 
 const scenes = [
   noise,
@@ -48,6 +48,8 @@ async function main() {
   let scene = scenes[0];
   let currentScene = 0;
 
+  let brightness = thingsProps.brightness;
+
   const timer = setDriftlessInterval(async () => {
     if (frame % SCENE_DURATION === 0) {
       // @TODO Make this nicer, add fade, queue, properly awaited setup call etc
@@ -59,9 +61,16 @@ async function main() {
       }
     }
 
+    if (brightness !== thingsProps.brightness) {
+      brightness = thingsProps.brightness;
+      ws281x.setBrightness(brightness);
+    }
+
     scene.draw(canvas, frame, thingsProps);
 
-    debugOutput(canvas.getPixels(), frame);
+    if (process.env.DEBUG) {
+      debugOutput(canvas.getPixels(), frame);
+    }
 
     ws281x.render(canvas.getPixelsData());
 
