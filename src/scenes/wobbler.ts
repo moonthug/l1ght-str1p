@@ -20,8 +20,8 @@ export const wobbler: Scene<WobblerData> = {
 
     for (let i = 0; i < canvas.getLength(); i++) {
       if (i < position + width && i > position - width) {
-        const blue = Math.floor(255 - (Math.abs(i - position) / width * 255));
-        canvas.setPixel(i, [ 0, 0, blue ]);
+        const alpha = Math.floor(255 - (Math.abs(i - position) / width * 255));
+        canvas.setPixel(i, [ 0, 0, 255, alpha ]);
       }
     }
   },
