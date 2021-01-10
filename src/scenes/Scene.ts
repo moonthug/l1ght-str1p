@@ -1,5 +1,5 @@
 import { Canvas } from '../Canvas';
-import { ThingsProps } from '../index';
+import { ThingProps } from '../hap';
 
 export interface SceneOptions {
   duration: number;
@@ -8,6 +8,6 @@ export interface SceneOptions {
 export interface Scene<T = unknown> {
   data?: T,
   options?: SceneOptions,
-  setup?(canvas: Canvas, thingsProps: ThingsProps): void,
-  draw(canvas: Canvas, frame: number, thingsProps: ThingsProps): void,
+  setup?(canvas: Canvas, thingProps: ThingProps): void,
+  draw(canvas: Canvas, frame: number, thingProps: ThingProps): void,
 }

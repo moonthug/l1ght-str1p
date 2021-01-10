@@ -12,7 +12,7 @@ export const noise: Scene<NoiseData> = {
       simplex: new SimplexNoise(),
     };
   },
-  draw(canvas, frame, thingsProps) {
+  draw(canvas, frame, thingProps) {
     canvas.getPixels().forEach((pixel, index) => {
       const rNoise = noise.data.simplex.noise2D(index + frame, (index + frame) * 2);
       const bNoise = noise.data.simplex.noise2D(index + frame + 2, (index + frame + 2) * 2);

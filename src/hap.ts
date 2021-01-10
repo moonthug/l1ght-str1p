@@ -10,9 +10,13 @@ import {
   uuid,
 } from 'hap-nodejs';
 
-import { ThingsProps } from './index';
+export interface ThingProps {
+  brightness: number,
+  color: string,
+  on: boolean,
+}
 
-export function createHapService(props: ThingsProps) {
+export function createHapService(props: ThingProps) {
   const accessoryUuid = uuid.generate('rodeo.polyglot.l1ght-str1p');
   const accessory = new Accessory('l1ght-str1p', accessoryUuid);
   const lightService = new Service.Lightbulb('l1ght-str1p');
@@ -51,7 +55,7 @@ export function createHapService(props: ThingsProps) {
 
   accessory.publish({
     username: '11:22:33:44:55:66',
-    pincode: '000-00-000',
+    pincode: '031-45-154',
     port: 45000,
     category: Categories.LIGHTBULB,
   });
