@@ -1,6 +1,7 @@
 import { noise } from './scenes/noise';
 import { nightrider } from './scenes/nightrider';
 import { webthings } from './scenes/webthings';
+import { test } from './scenes/test';
 import { wobbler } from './scenes/wobbler';
 import { weather } from './scenes/weather';
 
@@ -8,8 +9,9 @@ import { createHapService } from './hap';
 import { Display } from './Display';
 
 const scenes = [
-  //noise,
-  //nightrider,
+  // test,
+  noise,
+  nightrider,
   wobbler,
 ];
 

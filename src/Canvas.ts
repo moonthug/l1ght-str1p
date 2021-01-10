@@ -41,7 +41,7 @@ export class Canvas {
   }
 
   rgb2Int(colour: Colour) {
-    return ((colour[2] & 0xFF) << 16) + ((colour[1] & 0xFF) << 8) + (colour[0] & 0xFF);
+    return ((colour[1] & 0xFF) << 16) + ((colour[0] & 0xFF) << 8) + (colour[2] & 0xFF);
   }
 
   private applyAlpha(colour: Colour) {
