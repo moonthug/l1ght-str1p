@@ -1,6 +1,6 @@
-import { Scene } from './Scene';
+import { Scene } from '../Scene';
 
-export const webthings: Scene = {
+export const scene: Scene = {
   setup() {
 
   },

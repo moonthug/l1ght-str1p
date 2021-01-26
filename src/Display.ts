@@ -1,25 +1,40 @@
+import fs from 'fs';
+import path from 'path';
 import ws281x from 'rpi-ws281x-native';
 import {
   setDriftlessInterval,
 } from 'driftless';
 import { Canvas } from './Canvas';
 import { debugOutput } from './debugOutput';
-import { ThingProps } from './hap';
+import { ThingProps } from './integrations/hap';
 import { Scene } from './scenes/Scene';
 
 interface DisplayOptions {
-
+  ledCount: number,
+  scenePath: string,
+  sceneExtension: string,
+  thingProps: ThingProps,
 }
 
 export class Display {
   private readonly canvas: Canvas;
+  private scenes: Scene[];
 
-  constructor(ledCount: number, private scenes: Scene[], private thingProps: ThingProps, options?: DisplayOptions) {
-    this.canvas = new Canvas(ledCount);
-    ws281x.init(ledCount);
+  constructor(private options: DisplayOptions) {
+    this.canvas = new Canvas(options.ledCount);
   }
 
-  run() {
+  private async loadScenes() {
+    return (
+      await Promise.all(fs.readdirSync(this.options.scenePath)
+      .filter((sceneFilename) => path.extname(sceneFilename) === `.${this.options.sceneExtension}`)
+      .map((sceneFilename) => import(path.join(this.options.scenePath, sceneFilename))),
+      )
+    ).filter((scene) => !!scene.scene)
+      .map((scene) => scene.scene);
+  }
+
+  private runTimer() {
     let frame = 0;
 
     // Move to .env
@@ -30,7 +45,9 @@ export class Display {
     let scene = this.scenes[0];
     let currentScene = 0;
 
-    let brightness = this.thingProps.brightness;
+    const { thingProps } = this.options;
+
+    let brightness = thingProps.brightness;
 
     const timer = setDriftlessInterval(async () => {
       if (frame % SCENE_DURATION === 0) {
@@ -39,16 +56,16 @@ export class Display {
         scene = this.scenes[currentScene];
 
         if (scene.setup) {
-          scene.setup(this.canvas, this.thingProps);
+          scene.setup(this.canvas, thingProps);
         }
       }
 
-      if (brightness !== this.thingProps.brightness) {
-        brightness = this.thingProps.brightness;
+      if (brightness !== thingProps.brightness) {
+        brightness = thingProps.brightness;
         ws281x.setBrightness(brightness);
       }
 
-      scene.draw(this.canvas, frame, this.thingProps);
+      scene.draw(this.canvas, frame, thingProps);
 
       if (process.env.DEBUG) {
         debugOutput(this.canvas.getPixels(), frame);
@@ -58,5 +75,12 @@ export class Display {
 
       frame++;
     }, INTERVAL);
+  }
+
+  public async run() {
+    this.scenes = await this.loadScenes();
+    ws281x.init(this.options.ledCount);
+
+    this.runTimer();
   }
 }

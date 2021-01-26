@@ -1,8 +1,8 @@
 import { Canvas } from '../Canvas';
-import { ThingProps } from '../hap';
+import { ThingProps } from '../integrations/hap';
 
 export interface SceneOptions {
-  duration: number;
+  duration: number,
 }
 
 export interface Scene<T = unknown> {

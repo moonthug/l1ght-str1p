@@ -45,8 +45,8 @@ export class Canvas {
   }
 
   private applyAlpha(colour: Colour) {
-    if (colour[3]) {
-      const shade = colour[3] / 255;
+    if (colour[3] !== undefined) {
+      const shade = 1 - colour[3] / 255;
       colour[0] = colour[0] * (1 - shade);
       colour[1] = colour[1] * (1 - shade);
       colour[2] = colour[2] * (1 - shade);

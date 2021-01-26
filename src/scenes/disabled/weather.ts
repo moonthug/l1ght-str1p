@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Scene } from './Scene';
+import { Scene } from '../Scene';
 
 interface WeatherData {
   error?: boolean,
@@ -17,23 +17,23 @@ interface OpenWeatherMapResponse {
   },
 }
 
-export const weather: Scene<WeatherData> = {
+export const scene: Scene<WeatherData> = {
   data: {
     type: '',
   },
   async setup(canvas) {
     try {
       const { data } = await axios('http://api.openweathermap.org/data/2.5/weather?q=knipton&appid=b9fe737f470c68b3273c8a8e494ac8e4') as OpenWeatherMapResponse;
-      weather.data = {
+      scene.data = {
         error: false,
         type: data.weather[0].main,
       };
     } catch (e) {
-      weather.data.error = true;
+      scene.data.error = true;
     }
   },
   draw(canvas, frame) {
-    const { error, type } = weather.data;
+    const { error, type } = scene.data;
 
     if (type === 'Rain') {
       canvas.fill([0, 0, 255]);

@@ -1,19 +1,7 @@
-import { noise } from './scenes/noise';
-import { nightrider } from './scenes/nightrider';
-import { webthings } from './scenes/webthings';
-import { test } from './scenes/test';
-import { wobbler } from './scenes/wobbler';
-import { weather } from './scenes/weather';
-
-import { createHapService } from './hap';
+import path from 'path';
+import { createHapService } from './integrations/hap';
 import { Display } from './Display';
 
-const scenes = [
-  // test,
-  noise,
-  nightrider,
-  wobbler,
-];
 
 async function main() {
   const thingProps = {
@@ -24,13 +12,14 @@ async function main() {
 
   const hapService = createHapService(thingProps);
 
-  const display = new Display(
-    120,
-    scenes,
+  const display = new Display({
+    ledCount: 120,
+    scenePath: path.resolve(process.env.SCENE_PATH || './scenes'),
+    sceneExtension: process.env.SCENE_EXT || 'js',
     thingProps,
-  );
+  });
 
-  display.run();
+  await display.run();
 }
 
 process.title = 'l1ght-str1p';

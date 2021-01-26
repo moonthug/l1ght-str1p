@@ -1,6 +1,6 @@
 import { Scene } from './Scene';
 
-export const nightrider: Scene = {
+export const scene: Scene = {
   setup() {
     //
   },
