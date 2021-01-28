@@ -38,6 +38,7 @@ Thumbs.db
 .env
 dist/
 .vscode
-dist
 
 .nyc*
+
+deploy.tar.gz
