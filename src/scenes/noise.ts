@@ -3,16 +3,16 @@ import SimplexNoise from 'simplex-noise';
 import { Scene } from './Scene';
 
 interface NoiseData {
-  simplex: SimplexNoise,
+  simplex: SimplexNoise;
 }
 
 export const scene: Scene<NoiseData> = {
-  setup() {
+  setup () {
     scene.data = {
-      simplex: new SimplexNoise(),
+      simplex: new SimplexNoise()
     };
   },
-  draw(canvas, frame, thingProps) {
+  draw (canvas, frame, thingProps) {
     canvas.getPixels().forEach((pixel, index) => {
       const val = index + frame;
       const rNoise = scene.data.simplex.noise2D(val / 50, val / 50);
@@ -23,5 +23,5 @@ export const scene: Scene<NoiseData> = {
 
       canvas.setPixel(index, [red, 255, blue]);
     });
-  },
+  }
 };

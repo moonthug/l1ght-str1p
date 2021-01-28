@@ -7,12 +7,12 @@ interface WobblerData {
 }
 
 export const scene: Scene<WobblerData> = {
-  setup() {
+  setup () {
     scene.data = {
       simplex: new SimplexNoise(),
     };
   },
-  draw(canvas, frame) {
+  draw (canvas, frame) {
     canvas.fill([0, 0, 0]);
 
     const width = 30 - (scene.data.simplex.noise2D(frame / 400, frame / 400) * 10);
@@ -24,5 +24,5 @@ export const scene: Scene<WobblerData> = {
         canvas.setPixel(i, [ 128, 0, 255, alpha ]);
       }
     }
-  },
+  }
 };
