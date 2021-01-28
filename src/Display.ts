@@ -1,9 +1,4 @@
-import fs from 'fs';
-import path from 'path';
 import ws281x from 'rpi-ws281x-native';
-import {
-  setDriftlessInterval,
-} from 'driftless';
 import { Canvas } from './Canvas';
 import { debugOutput } from './debugOutput';
 import { ThingProps } from './integrations/hap';
@@ -11,76 +6,55 @@ import { Scene } from './scenes/Scene';
 
 interface DisplayOptions {
   ledCount: number,
-  scenePath: string,
-  sceneExtension: string,
   thingProps: ThingProps,
+  sceneDuration: number,
+  crossFadeDuration: number,
 }
 
 export class Display {
+
   private readonly canvas: Canvas;
   private scenes: Scene[];
+  private currentSceneIndex: number;
+  private currentFrame: number;
 
   constructor(private options: DisplayOptions) {
     this.canvas = new Canvas(options.ledCount);
+    this.currentFrame = 0;
   }
 
-  private async loadScenes() {
-    return (
-      await Promise.all(fs.readdirSync(this.options.scenePath)
-      .filter((sceneFilename) => path.extname(sceneFilename) === `.${this.options.sceneExtension}`)
-      .map((sceneFilename) => import(path.join(this.options.scenePath, sceneFilename))),
-      )
-    ).filter((scene) => !!scene.scene)
-      .map((scene) => scene.scene);
+  private setupCurrentScene() {
+    if (this.scenes[this.currentSceneIndex].setup) {
+      this.scenes[this.currentSceneIndex].setup(this.canvas, this.options.thingProps);
+    }
   }
 
-  private runTimer() {
-    let frame = 0;
+  public setup(scenes: Scene[]) {
+    this.scenes = scenes;
+    this.currentSceneIndex = 0;
 
-    // Move to .env
-    const INTERVAL = 1000 / 60;
-    const SCENE_DURATION = 10 * 60;
-
-    // @TODO Add plugin sequencer
-    let scene = this.scenes[0];
-    let currentScene = 0;
-
-    const { thingProps } = this.options;
-
-    let brightness = thingProps.brightness;
-
-    const timer = setDriftlessInterval(async () => {
-      if (frame % SCENE_DURATION === 0) {
-        // @TODO Make this nicer, add fade, queue, properly awaited setup call etc
-        currentScene = (currentScene + 1) % this.scenes.length;
-        scene = this.scenes[currentScene];
-
-        if (scene.setup) {
-          scene.setup(this.canvas, thingProps);
-        }
-      }
-
-      if (brightness !== thingProps.brightness) {
-        brightness = thingProps.brightness;
-        ws281x.setBrightness(brightness);
-      }
-
-      scene.draw(this.canvas, frame, thingProps);
-
-      if (process.env.DEBUG) {
-        debugOutput(this.canvas.getPixels(), frame);
-      }
-
-      ws281x.render(this.canvas.getPixelsData());
-
-      frame++;
-    }, INTERVAL);
+    this.setupCurrentScene();
   }
 
-  public async run() {
-    this.scenes = await this.loadScenes();
-    ws281x.init(this.options.ledCount);
+  public draw() {
+    if (this.scenes.length > 1) {
+      if (this.currentFrame % this.options.sceneDuration === 0 && this.currentFrame !== 0) {
 
-    this.runTimer();
+        // Change Frame
+        this.currentSceneIndex = (this.currentSceneIndex + 1) % this.scenes.length;
+        this.setupCurrentScene();
+      }
+    }
+
+    if (process.env.DEBUG) {
+      debugOutput(this.canvas.getPixels(), this.currentFrame);
+    }
+
+    this.scenes[this.currentSceneIndex]
+      .draw(this.canvas, this.currentFrame, this.options.thingProps);
+
+    ws281x.render(this.canvas.getPixelsData());
+
+    this.currentFrame++;
   }
 }

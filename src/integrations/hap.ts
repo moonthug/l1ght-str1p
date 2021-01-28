@@ -25,7 +25,6 @@ export function createHapService(props: ThingProps) {
   const brightnessCharacteristic = lightService.getCharacteristic(Characteristic.Brightness);
   const hueCharacteristic = lightService.getCharacteristic(Characteristic.Hue);
 
-
   onCharacteristic.on(CharacteristicEventTypes.GET, (callback: CharacteristicGetCallback) => {
     callback(undefined, props.on);
   });

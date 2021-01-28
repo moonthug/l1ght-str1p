@@ -10,4 +10,5 @@ export interface Scene<T = unknown> {
   options?: SceneOptions,
   setup?(canvas: Canvas, thingProps: ThingProps): void,
   draw(canvas: Canvas, frame: number, thingProps: ThingProps): void,
+  setupCalled?: boolean,
 }

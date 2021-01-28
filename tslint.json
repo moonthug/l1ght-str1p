@@ -1,5 +1,5 @@
 {
-  "extends": "tslint-config-shopify",
+  "extends": "tslint-config-semistandard",
   "rules": {
     "no-require-imports" : false,
     "member-ordering": [ false ],

@@ -1,4 +1,4 @@
-import { Scene } from '../Scene';
+import { Scene } from './Scene';
 
 export const scene: Scene = {
   draw(canvas) {
