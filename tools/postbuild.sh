@@ -3,6 +3,7 @@ UNAME=`uname`
 
 cp package.json dist/package.json
 cp ecosystem.config.js dist/ecosystem.config.js
+cp tools/update.sh dist/update.sh
 
 cd dist/
 npm install --only=production
