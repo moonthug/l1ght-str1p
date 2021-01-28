@@ -18,6 +18,12 @@ interface OpenWeatherMapResponse {
   ];
 }
 
+function drawLoading (canvas: Canvas, frame: number) {
+  const position = frame % canvas.getLength();
+  canvas.setPixel(position, [0, 255, 128]);
+  canvas.fill([0, 0, 0, 50]);
+}
+
 function drawRain (canvas: Canvas) {
   const count = Math.random() * 2;
   for (let i = 0; i < count; i++) {
@@ -29,6 +35,16 @@ function drawRain (canvas: Canvas) {
 function drawDrizzle (canvas: Canvas) {
   canvas.setPixel(Math.floor(Math.random() * canvas.getLength()), [0, 50, 255]);
   canvas.fill([50, 50, 50, 25]);
+}
+
+function drawSnow (canvas: Canvas) {
+  const count = Math.random() * 2;
+  for (let i = 0; i < count; i++) {
+    const position = Math.floor(Math.random() * (canvas.getLength() - 1));
+    canvas.setPixel(position, [255, 255, 255]);
+    canvas.setPixel(position + 1, [255, 255, 255]);
+  }
+  canvas.fill([150, 150, 150, 10]);
 }
 
 function drawClouds (canvas: Canvas, frame: number, simplex: SimplexNoise) {
@@ -44,6 +60,14 @@ function drawClouds (canvas: Canvas, frame: number, simplex: SimplexNoise) {
       base + Math.floor(rgbNoise * 50)
     ]);
   });
+}
+
+function drawThunder (canvas: Canvas, frame: number, simplex: SimplexNoise) {
+  drawClouds(canvas, frame, simplex);
+
+  if (Math.random() > 0.99) {
+    canvas.fill([255, 255, 255]);
+  }
 }
 
 function drawClear (canvas: Canvas, frame: number, simplex: SimplexNoise) {
@@ -90,6 +114,7 @@ export const scene: Scene<WeatherData> = {
   draw (canvas, frame) {
     const { error, loading, type } = scene.data;
 
+    // https://openweathermap.org/weather-conditions
     if (type === 'Clear') {
       drawClear(canvas, frame, scene.data.simplex);
     } else if (type === 'Rain') {
@@ -98,12 +123,16 @@ export const scene: Scene<WeatherData> = {
       drawDrizzle(canvas);
     } else if (type === 'Clouds') {
       drawClouds(canvas, frame, scene.data.simplex);
+    } else if (type === 'Thunderstorm') {
+      drawThunder(canvas, frame, scene.data.simplex);
+    } else if (type === 'Snow') {
+      drawSnow(canvas);
     } else {
       canvas.fill([0, 0, 0]);
     }
 
     if (loading) {
-      canvas.gradient(0, canvas.getLength(), [0, 0, 20], [0, 100, 150]);
+      drawLoading(canvas, frame);
     }
 
     if (error) {

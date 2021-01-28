@@ -7,7 +7,7 @@ export const scene: Scene = {
     for(let i = 0; i < count; i++) {
       if (i >= (count / 3) * 2) {
         canvas.setPixel(i, [0, 0, 255]);
-      } else if (i >= (count / 3 ) && i < ((count / 3 ) * 2)) {
+      } else if (i >= (count / 3) && i < ((count / 3) * 2)) {
         canvas.setPixel(i, [0, 255, 0]);
       } else if (i >= 0) {
         const alpha = Math.floor(255 * (i / (count / 3)));

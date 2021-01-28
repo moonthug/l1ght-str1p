@@ -13,15 +13,17 @@ export const scene: Scene<NoiseData> = {
     };
   },
   draw (canvas, frame, thingProps) {
+    canvas.clear();
+
     canvas.getPixels().forEach((pixel, index) => {
       const val = index + frame;
-      const rNoise = scene.data.simplex.noise2D(val / 50, val / 50);
-      const bNoise = scene.data.simplex.noise2D((val - 1) / 50, (val - 1) / 50);
+      const bNoise = scene.data.simplex.noise2D((val - 1) / 5, (val - 1) / 5);
+      const aNoise = scene.data.simplex.noise2D((val - 2) / 50, (val - 2) / 50);
 
-      const red = 150 + Math.floor(rNoise * 100);
       const blue = 150 + Math.floor(bNoise * 100);
+      const alpha = 128 + Math.floor(aNoise * 128);
 
-      canvas.setPixel(index, [red, 255, blue]);
+      canvas.setPixel(index, [0, 255, blue, alpha]);
     });
   }
 };

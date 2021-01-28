@@ -2,12 +2,11 @@ import path from 'path';
 import { createHapService } from './integrations/hap';
 import { L1ghtStr1p } from './L1ghtStr1p';
 
-
-async function main() {
+async function main () {
   const thingProps = {
     brightness: 100,
     color: '#000000',
-    on: false,
+    on: false
   };
 
   const hapService = createHapService(thingProps);
@@ -17,7 +16,7 @@ async function main() {
     frameRate: parseInt(process.env.FRAME_RATE, 10) || 30,
     scenePath: path.resolve(process.env.SCENE_PATH || './scenes'),
     sceneExtension: process.env.SCENE_EXT || 'js',
-    thingProps,
+    thingProps
   });
 
   await l1ghtStr1p.start();

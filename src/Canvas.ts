@@ -67,17 +67,22 @@ export class Canvas {
   }
 
   public blend (background: Colour, foreground: Colour, blendMode: BlendMode): Colour {
-    // @TODO
+    // @TODO Add more blend modes
     switch (blendMode) {
       case BlendMode.NORMAL:
+        if (foreground[3] === 0) {
+          return background;
+        }
+        if (foreground[3] === 255) {
+          return foreground;
+        }
         background[3] = background[3] || 255;
         foreground[3] = foreground[3] || 255;
-
         const fraction = foreground[3] / 255;
         const colour = [
-          Math.round((foreground[0] * fraction) + (background[0] * (1 - fraction))), // red
-          Math.round((foreground[1] * fraction) + (background[1] * (1 - fraction))), // green
-          Math.round((foreground[2] * fraction) + (background[2] * (1 - fraction)))  // blue
+          Math.round((foreground[0] * fraction) + (background[0] * (1 - fraction))),
+          Math.round((foreground[1] * fraction) + (background[1] * (1 - fraction))),
+          Math.round((foreground[2] * fraction) + (background[2] * (1 - fraction)))
         ];
         return colour as Colour;
     }

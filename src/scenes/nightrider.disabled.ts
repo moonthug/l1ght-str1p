@@ -1,13 +1,10 @@
 import { Scene } from './Scene';
 
 export const scene: Scene = {
-  setup() {
-    //
-  },
-  draw(canvas, frame, thingsProps) {
+  draw (canvas, frame, thingsProps) {
     canvas.fill([0, 0, 0]);
 
-    const position = Math.abs(canvas.getLength()  - (frame % (canvas.getLength() * 2)));
+    const position = Math.abs(canvas.getLength() - (frame % (canvas.getLength() * 2)));
 
     for (let i = 0; i < canvas.getLength(); i++) {
       if (i < position + 10 && i > position - 10) {
