@@ -32,7 +32,7 @@ export class Canvas {
 
   public gradient (fromIndex: number, toIndex: number, fromColour: Colour, toColour: Colour) {
     for (let i = fromIndex; i < toIndex; i++) {
-      const fraction = i / (toIndex - fromIndex);
+      const fraction = i / toIndex;
       const colour = this.lerp(fromColour, toColour, fraction);
       this.setPixel(i, colour);
     }
