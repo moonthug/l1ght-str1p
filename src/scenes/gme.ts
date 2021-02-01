@@ -1,12 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
 import { Canvas } from '../Canvas';
 import { Scene } from './Scene';
-import SimplexNoise from 'simplex-noise';
 
 interface WeatherData {
   error?: boolean;
   loading: boolean;
-  simplex: SimplexNoise;
   value?: {
     previousClosePrice: number;
     currentPrice: number;
@@ -31,8 +29,7 @@ function drawLoading (canvas: Canvas, frame: number) {
 export const scene: Scene<WeatherData> = {
   data: {
     loading: true,
-    error: false,
-    simplex: new SimplexNoise()
+    error: false
   },
   setup () {
     scene.data.loading = true;
